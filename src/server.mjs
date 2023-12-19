@@ -5,6 +5,8 @@ import path from "path";
 import url from 'url'
 import fs from 'fs'
 
+import { HTTP_PORT } from './config.mjs'
+
 // swagger imports
 import swaggerJsdoc from 'swagger-jsdoc';
 import swaggerUi from 'swagger-ui-express';
@@ -37,10 +39,8 @@ const swaggerOptions = {
 
 const specs = swaggerJsdoc(swaggerOptions);
 
-const PORT = process.env.PORT ?? 8000
-
-app.listen(PORT, () => {
-    console.log(`Listening on port ${PORT}`);
+const server = app.listen(HTTP_PORT, () => {
+    console.log(`Listening on port ${HTTP_PORT}`);
 })
 
 await importFunctionDirectory('routes', { app })
@@ -54,4 +54,9 @@ async function importFunctionDirectory(dirname, state) {
     const { default: route } = await import(path.join(routeDir, routeFile))
     route(state)
   }
+}
+
+export async function exit() {
+    await mongoose.disconnect()
+    await new Promise(r => server.close(r))
 }
