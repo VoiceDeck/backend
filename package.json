@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "node src/server.mjs",
     "db": "sh scripts/start_db.sh",
+    "lint": "prettier .",
     "test": "npm run db && ava --no-worker-threads ./test/*.test.mjs"
   },
   "keywords": [],

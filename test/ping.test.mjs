@@ -3,7 +3,7 @@ import fetch from 'node-fetch'
 import { exit, SERVER_HOST } from './server.mjs'
 import mongoose from 'mongoose'
 
-test('should respond to ping', async t => {
+test('should respond to ping', async (t) => {
   const url = new URL('/ping', SERVER_HOST)
   const r = await fetch(url.toString())
   const { pong } = await r.json()
@@ -11,6 +11,6 @@ test('should respond to ping', async t => {
   t.true(pong)
 })
 
-test.after.always('close the server', async t => {
+test.after.always('close the server', async (t) => {
   await exit()
 })

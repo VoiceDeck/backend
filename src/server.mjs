@@ -1,46 +1,45 @@
-import express from "express";
-import cors from 'cors';
-import mongoose from 'mongoose';
-import path from "path";
+import express from 'express'
+import cors from 'cors'
+import mongoose from 'mongoose'
+import path from 'path'
 import url from 'url'
 import fs from 'fs'
 
 import { HTTP_PORT } from './config.mjs'
 
 // swagger imports
-import swaggerJsdoc from 'swagger-jsdoc';
-import swaggerUi from 'swagger-ui-express';
+import swaggerJsdoc from 'swagger-jsdoc'
+import swaggerUi from 'swagger-ui-express'
 
 const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
-const app = express();
+const app = express()
 
 // middleware
-app.use(cors());
-app.use(express.json());
+app.use(cors())
+app.use(express.json())
 
 const swaggerOptions = {
-    definition: {
-        openapi: "3.0.0",
-        info: {
-            title: "voicedeck backend API",
-            version: "1.0.0",
-            description: "voicedeck API",
-        },
-        servers: [
-            {
-                url: process.env.SERVER_URL || "http://localhost:8000",
-            },
-        ],
+  definition: {
+    openapi: '3.0.0',
+    info: {
+      title: 'voicedeck backend API',
+      version: '1.0.0',
+      description: 'voicedeck API',
     },
-    apis: [path.resolve(__dirname, '../src/routes/*.ts')],
-};
+    servers: [
+      {
+        url: process.env.SERVER_URL || 'http://localhost:8000',
+      },
+    ],
+  },
+  apis: [path.resolve(__dirname, '../src/routes/*.ts')],
+}
 
-
-const specs = swaggerJsdoc(swaggerOptions);
+const specs = swaggerJsdoc(swaggerOptions)
 
 const server = app.listen(HTTP_PORT, () => {
-    console.log(`Listening on port ${HTTP_PORT}`);
+  console.log(`Listening on port ${HTTP_PORT}`)
 })
 
 await importFunctionDirectory('routes', { app })
@@ -57,6 +56,6 @@ async function importFunctionDirectory(dirname, state) {
 }
 
 export async function exit() {
-    await mongoose.disconnect()
-    await new Promise(r => server.close(r))
+  await mongoose.disconnect()
+  await new Promise((r) => server.close(r))
 }
