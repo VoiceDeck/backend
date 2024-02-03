@@ -36,26 +36,12 @@ const swaggerOptions = {
   apis: [path.resolve(__dirname, '../src/routes/*.js')],
 }
 
+
+app.use((req, res, next) => {
+  console.log(req.path, req.method);
+  next();
+});
+
 const specs = swaggerJsdoc(swaggerOptions)
 
-const server = app.listen(HTTP_PORT, () => {
-  console.log(`Listening on port ${HTTP_PORT}`)
-})
-
-await importFunctionDirectory('routes', { app })
-
-// name relative to file location
-async function importFunctionDirectory(dirname, state) {
-  // import all non-index files from __dirname/name this folder
-  const routeDir = path.join(__dirname, dirname)
-  const routes = await fs.promises.readdir(routeDir)
-  for (const routeFile of routes) {
-    const { default: route } = await import(path.join(routeDir, routeFile))
-    route(state)
-  }
-}
-
-export async function exit() {
-  await mongoose.disconnect()
-  await new Promise((r) => server.close(r))
-}
+app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))

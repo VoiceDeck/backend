@@ -1,3 +1,4 @@
+import express from 'express';
 import User from '../models/users.mjs'
 export const signup = async(req, res) => {
     const { web3authId, username, firstname, lastname } = req.body
