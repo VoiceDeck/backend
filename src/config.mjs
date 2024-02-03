@@ -1,21 +1,22 @@
-import fs from 'fs/promises'
-import _fs from 'fs'
-import os from 'os'
-import path from 'path'
-import url from 'url'
-import { config } from 'dotenv'
-import mongoose from 'mongoose'
+// import fs from 'fs/promises'
+// import _fs from 'fs'
+// import os from 'os'
+// import path from 'path'
+// import url from 'url'
+// import { config } from 'dotenv'
+// import mongoose from 'mongoose'
 
-config()
+// config()
 
-const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
+// const __dirname = path.dirname(url.fileURLToPath(import.meta.url))
 
-export const HTTP_PORT = process.env.HTTP_PORT ?? 8000
+// export const HTTP_PORT = process.env.HTTP_PORT ?? 8000
 
-const MONGO_URL = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/db'
+// const MONGO_URL = process.env.MONGO_URL || 'mongodb://127.0.0.1:27017/db'
+// console.log("Mongo url : ", MONGO_URL);
 
-mongoose.connect(MONGO_URL).catch((err) => {
-  console.log(err)
-  console.log('Error establishing connection to db')
-  process.exit(1)
-})
+// mongoose.connect(MONGO_URL).catch((err) => {
+//   console.log(err)
+//   console.log('Error establishing connection to db')
+//   process.exit(1)
+// })
