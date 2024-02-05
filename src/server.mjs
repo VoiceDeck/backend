@@ -6,11 +6,13 @@ import cors from 'cors'
 import mongoose from 'mongoose'
 import path from 'path'
 import url from 'url'
-import fs from 'fs'
+
 
 // swagger imports
 import swaggerJsdoc from 'swagger-jsdoc'
 import swaggerUi from 'swagger-ui-express'
+
+import userRoutes from './routes/users.mjs';
 
 
 const app = express()
@@ -18,6 +20,11 @@ const app = express()
 // middleware
 app.use(cors())
 app.use(express.json())
+
+app.use((req, res, next) => {
+  console.log(req.path, req.method);
+  next();
+});
 
 const swaggerOptions = {
   definition: {
@@ -33,18 +40,17 @@ const swaggerOptions = {
       },
     ],
   },
-  apis: [path.resolve(__dirname, '../src/routes/*.js')],
+  apis: [path.resolve(__dirname, '../src/routes/*.mjs')],
 }
 
 
-app.use((req, res, next) => {
-  console.log(req.path, req.method);
-  next();
-});
+
 
 const specs = swaggerJsdoc(swaggerOptions)
 
+//routes
 app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(specs))
+app.use('/api', userRoutes)
 console.log("mongo uri : ", process.env.MONGO_URI);
 console.log("port : ", process.env.PORT);
 

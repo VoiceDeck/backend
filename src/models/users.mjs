@@ -1,7 +1,6 @@
 import mongoose, { Schema } from 'mongoose';
 
-
-const UserSchema = new Schema<User>({
+const UserSchema = new mongoose.Schema({
   web3authId: { type: String, required: true },
   username: { type: String, required: true },
   firstname: {type: String, required: true},
@@ -22,4 +21,6 @@ const UserSchema = new Schema<User>({
   preferredIssues: { type: [String] },
 });
 
-export default mongoose.model<User>('User', UserSchema);
+const User = mongoose.model('User', UserSchema)
+
+export default User;
